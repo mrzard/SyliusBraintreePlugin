@@ -35,6 +35,7 @@ install:
     - (cd tests/Application && yarn install)
 
 before_script:
+    - mkdir -p tests/Application/public/media/image
     - (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
     - (cd tests/Application && APP_DEBUG=1 bin/console doctrine:schema:create --env=test -vvv)
     - (cd tests/Application && bin/console assets:install public --env=test -vvv)
