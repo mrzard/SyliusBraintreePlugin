@@ -8,6 +8,9 @@ php:
     - 7.2
     - 7.3
 
+addons:
+    firefox: "53"
+
 cache:
     yarn: true
     directories:
@@ -55,8 +58,20 @@ before_script:
             mv chromedriver $SYLIUS_CACHE_DIR
         fi
 
+    # Download and configure GeckoDriver
+    - |
+        if [ ! -f $SYLIUS_CACHE_DIR/geckodriver ] || [ "$($SYLIUS_CACHE_DIR/geckodriver --version | grep -c 2.34)" = "0" ]; then
+            curl -L https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz > geckodriver.tar.gz
+            tar -xzf geckodriver.tar.gz
+            chmod +x geckodriver
+            mv geckodriver $SYLIUS_CACHE_DIR
+        fi
+
     # Run ChromeDriver
     - $SYLIUS_CACHE_DIR/chromedriver > /dev/null 2>&1 &
+
+    # Run GeckoDriver
+    - $SYLIUS_CACHE_DIR/geckodriver > /dev/null 2>&1 &
 
     # Download and configure Selenium
     - |
@@ -66,7 +81,7 @@ before_script:
         fi
 
     # Run Selenium
-    - java -Dwebdriver.chrome.driver=$SYLIUS_CACHE_DIR/chromedriver -jar $SYLIUS_CACHE_DIR/selenium.jar > /dev/null 2>&1 &
+    - java -Dwebdriver.gecko.driver=$SYLIUS_CACHE_DIR/geckodriver -Dwebdriver.chrome.driver=$SYLIUS_CACHE_DIR/chromedriver -jar $SYLIUS_CACHE_DIR/selenium.jar > /dev/null 2>&1 &
 
     # Run webserver
     - (cd tests/Application && bin/console server:run 127.0.0.1:8080 -d public --env=test --quiet > /dev/null 2>&1 &)
