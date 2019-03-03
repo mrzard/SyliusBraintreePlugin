@@ -1,22 +1,26 @@
 imports:
-    - vendor/sylius/sylius/behat.yml.dist
+    - vendor/sylius/sylius/src/Sylius/Behat/Resources/config/suites.yml
     - tests/Behat/Resources/suites.yml
 
 default:
+    formatters:
+        pretty:
+            verbose: true
+            paths: false
+            snippets: false
+
     extensions:
-        FriendsOfBehat\ContextServiceExtension:
-            imports:
-                - vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml
-                - tests/Behat/Resources/services.xml
+        Behat\MinkExtension:
+            base_url: 'http://localhost:8080'
+            selenium2: ~
 
         FriendsOfBehat\SymfonyExtension:
-            env_file: tests/Application/.env.test
+            bootstrap: tests/Application/config/bootstrap.php
             kernel:
-                env: test
+                environment: test
                 debug: true
                 class: Tests\BitBag\SyliusBraintreePlugin\Application\Kernel
                 path: tests/Application/Kernel.php
-                bootstrap: ~
 
         Lakion\Behat\MinkDebugExtension:
             directory: etc/build

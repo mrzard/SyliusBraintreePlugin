@@ -18,6 +18,7 @@ env:
     global:
         - SYLIUS_CACHE_DIR=$HOME/.sylius-cache
         - SYLIUS_BUILD_DIR=etc/build
+        - APP_ENV=test_cached
     matrix:
         - SYMFONY_VERSION="4.2.*"
 
@@ -35,7 +36,7 @@ install:
 
 before_script:
     - (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
-    - (cd tests/Application && bin/console doctrine:schema:create --env=test -vvv)
+    - (cd tests/Application && APP_DEBUG=1 bin/console doctrine:schema:create --env=test -vvv)
     - (cd tests/Application && bin/console assets:install public --env=test -vvv)
     - (cd tests/Application && bin/console cache:warmup --env=test -vvv)
     - (cd tests/Application && yarn build)
