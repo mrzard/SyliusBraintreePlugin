@@ -8,7 +8,8 @@
         "php": "^7.2",
         "sylius/sylius": "~1.4.0",
         "braintree/braintree_php": "^3.36",
-        "symfony/dotenv": "^4.2"
+        "symfony/dotenv": "^4.2",
+        "sylius/theme-bundle": "~1.4.5"
     },
     "require-dev": {
         "behat/behat": "^3.4",
