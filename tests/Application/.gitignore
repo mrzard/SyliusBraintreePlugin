@@ -9,7 +9,8 @@
 !/public/media/image/.gitignore
 
 /vendor
-/node_modules
+/node_modules/*
+!/node_modules/.gitkeep
 
 /.env
 /.env.prod
