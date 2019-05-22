@@ -68,7 +68,7 @@ final class BraintreeGatewayFactory extends GatewayFactory
             'payum.action.api.find_payment_method_nonce' => new FindPaymentMethodNonceAction(),
             'payum.action.api.do_sale' => new DoSaleAction(),
 
-            'cardholderAuthenticationRequired' => true,
+            'cardholderAuthenticationRequired' => false,
         ]);
 
         if (false == $config['payum.api']) {
